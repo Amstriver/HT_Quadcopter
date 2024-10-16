@@ -424,6 +424,11 @@
               <FileType>1</FileType>
               <FilePath>..\uart.c</FilePath>
             </File>
+            <File>
+              <FileName>wt_imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\wt_imu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

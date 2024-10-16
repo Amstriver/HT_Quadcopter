@@ -26,7 +26,13 @@
 void Delay(u32 uLoop);
 void Motor_Unlock_init(TM_CH_Enum TM_CH_1, TM_CH_Enum TM_CH_2, TM_CH_Enum TM_CH_3, TM_CH_Enum TM_CH_4);
 
-uint8_t data = 0;
+
+
+extern float fAng[3];
+extern float Temp;    
+extern uint8_t Flag;
+
+//uint8_t data = 0;
 
 /* Global functions ----------------------------------------------------------------------------------------*/
 /*********************************************************************************************************//**
@@ -35,9 +41,8 @@ uint8_t data = 0;
   ***********************************************************************************************************/
 int main(void)
 {
-	Timer_Init();
+	// Timer_Init();
 	USARTx_Init();  // 初始化USART1接口
-  NVIC_EnableIRQ(COM_IRQn);
 	Usart_SendStr(COM1_PORT,(uint8_t *)"------HT32 UART TEST-------\r\n");//循环发送字符串，测试用
   //PWM_Init();
   //Motor_Unlock_init(PWM_CH0, PWM_CH1, PWM_CH2, PWM_CH3);  // 电调解锁
@@ -45,7 +50,6 @@ int main(void)
 	OLED_Init();
 	OLED_Display_On();
 	OLED_Clear(0);
-  OLED_P8x16String(31, 0, "HEELO HT"); 
 //	char numberStr[10];
 //  sprintf(numberStr, "%d", i);	// 将数值i转换为字符串
 //  OLED_P8x16String(0, 0, numberStr);  // 显示该数字
@@ -56,6 +60,21 @@ int main(void)
 //  sprintf(numberStr, "%d", countValue);
 //	OLED_P8x16String(15, 6, numberStr);
 //	delay_ms(1000);
+		// 显示fAng数组中的值 
+		char floatStr1[20]; 
+		char floatStr2[20]; 
+		char floatStr3[20];		
+		if (Flag == 1)
+		{sprintf(floatStr1, "Roll = %.2f", fAng[0]);  // 将fAng[0]转换为保留两位小数的字符串  横滚角
+		OLED_P8x16String(10, 0, floatStr1);   // 在OLED上显示  
+			
+		sprintf(floatStr2, "Pitch = %.2f", fAng[1]);  // 转换fAng[1]  俯仰角
+		OLED_P8x16String(10, 2, floatStr2);   // 显示   
+//		
+		sprintf(floatStr3, "Yaw = %.2f", fAng[2]);  // 转换fAng[2]  偏航角
+		OLED_P8x16String(10, 4, floatStr3);   // 显示  
+		}
+		delay_ms(1000);                      // 延时1秒
 	//PWM_UpdateDuty(PWM_CH1, PWM_DUTY_20);
 	}
 }
@@ -88,26 +107,26 @@ void Motor_Unlock_init(TM_CH_Enum TM_CH_1, TM_CH_Enum TM_CH_2, TM_CH_Enum TM_CH_
 //	PWM_Cmd(ENABLE);
 }
 
-void COM_IRQHandler(void)
-{
-	u8 data;
-	printf("LED\r\n");
-	if( USART_GetFlagStatus(COM_PORT, USART_FLAG_RXDR) )
-	{
-		data = USART_ReceiveData(COM_PORT);
-		printf("data = %c\r\n",data);
-		if(data == '0')
-		{
-			LED_ON(GPIO_PIN_14);
-			printf("LED1 ON\r\n");
-		}
-		else if(data == '1')
-		{
-			LED_OFF(GPIO_PIN_14);
-			printf("LED1 OFF\r\n");
-		}
-	}
-}
+//void COM_IRQHandler(void)
+//{
+//	u8 data;
+//	printf("LED\r\n");
+//	if( USART_GetFlagStatus(COM_PORT, USART_FLAG_RXDR) )
+//	{
+//		data = USART_ReceiveData(COM_PORT);
+//		printf("data = %c\r\n",data);
+//		if(data == '0')
+//		{
+//			LED_ON(GPIO_PIN_14);
+//			printf("LED1 ON\r\n");
+//		}
+//		else if(data == '1')
+//		{
+//			LED_OFF(GPIO_PIN_14);
+//			printf("LED1 OFF\r\n");
+//		}
+//	}
+//}
 
 
 #if (HT32_LIB_DEBUG == 1)
