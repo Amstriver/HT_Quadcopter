@@ -409,6 +409,21 @@
               <FileType>1</FileType>
               <FilePath>..\HardWare\oled.c</FilePath>
             </File>
+            <File>
+              <FileName>time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\time.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

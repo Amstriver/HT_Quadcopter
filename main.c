@@ -5,7 +5,9 @@
 #include "delay.h"
 #include "ht32f5xxxx_tm_type.h"
 #include "oled.h"
-
+#include "time.h"
+#include "led.h"
+#include "uart.h"
 
 /** @addtogroup HT32_Series_Peripheral_Examples HT32 Peripheral Examples
   * @{
@@ -24,6 +26,8 @@
 void Delay(u32 uLoop);
 void Motor_Unlock_init(TM_CH_Enum TM_CH_1, TM_CH_Enum TM_CH_2, TM_CH_Enum TM_CH_3, TM_CH_Enum TM_CH_4);
 
+uint8_t data = 0;
+
 /* Global functions ----------------------------------------------------------------------------------------*/
 /*********************************************************************************************************//**
   * @brief  Main program.
@@ -31,9 +35,13 @@ void Motor_Unlock_init(TM_CH_Enum TM_CH_1, TM_CH_Enum TM_CH_2, TM_CH_Enum TM_CH_
   ***********************************************************************************************************/
 int main(void)
 {
-	
-  PWM_Init();
-  Motor_Unlock_init(PWM_CH0, PWM_CH1, PWM_CH2, PWM_CH3);  // 电调解锁
+	Timer_Init();
+	USARTx_Init();  // 初始化USART1接口
+  NVIC_EnableIRQ(COM_IRQn);
+	Usart_SendStr(COM1_PORT,(uint8_t *)"------HT32 UART TEST-------\r\n");//循环发送字符串，测试用
+  //PWM_Init();
+  //Motor_Unlock_init(PWM_CH0, PWM_CH1, PWM_CH2, PWM_CH3);  // 电调解锁
+	LED_Init();
 	OLED_Init();
 	OLED_Display_On();
 	OLED_Clear(0);
@@ -43,7 +51,12 @@ int main(void)
 //  OLED_P8x16String(0, 0, numberStr);  // 显示该数字
 
   while (1){
-	PWM_UpdateDuty(PWM_CH1, PWM_DUTY_20);
+//	uint32_t countValue = TM_GetCounter(HT_GPTM0);
+//  char numberStr[10];		
+//  sprintf(numberStr, "%d", countValue);
+//	OLED_P8x16String(15, 6, numberStr);
+//	delay_ms(1000);
+	//PWM_UpdateDuty(PWM_CH1, PWM_DUTY_20);
 	}
 }
 
@@ -74,6 +87,29 @@ void Motor_Unlock_init(TM_CH_Enum TM_CH_1, TM_CH_Enum TM_CH_2, TM_CH_Enum TM_CH_
 	delay_ms(3500);
 //	PWM_Cmd(ENABLE);
 }
+
+void COM_IRQHandler(void)
+{
+	u8 data;
+	printf("LED\r\n");
+	if( USART_GetFlagStatus(COM_PORT, USART_FLAG_RXDR) )
+	{
+		data = USART_ReceiveData(COM_PORT);
+		printf("data = %c\r\n",data);
+		if(data == '0')
+		{
+			LED_ON(GPIO_PIN_14);
+			printf("LED1 ON\r\n");
+		}
+		else if(data == '1')
+		{
+			LED_OFF(GPIO_PIN_14);
+			printf("LED1 OFF\r\n");
+		}
+	}
+}
+
+
 #if (HT32_LIB_DEBUG == 1)
 /*********************************************************************************************************//**
   * @brief  Report both the error name of the source file and the source line number.
