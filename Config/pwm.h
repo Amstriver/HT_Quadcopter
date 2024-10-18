@@ -76,12 +76,16 @@
 #endif
 
 #define PWM_DUTY_0       (0)
+#define PWM_DUTY_10      (HTCFG_PWM_TM_RELOAD * 0.10)
 #define PWM_DUTY_15      (HTCFG_PWM_TM_RELOAD * 0.15)
 #define PWM_DUTY_20      (HTCFG_PWM_TM_RELOAD * 0.20)
 #define PWM_DUTY_25      (HTCFG_PWM_TM_RELOAD * 0.25)
 #define PWM_DUTY_35      (HTCFG_PWM_TM_RELOAD * 0.35)
 #define PWM_DUTY_50      (HTCFG_PWM_TM_RELOAD * 0.50)
+#define PWM_DUTY_60      (HTCFG_PWM_TM_RELOAD * 0.60)
 #define PWM_DUTY_75      (HTCFG_PWM_TM_RELOAD * 0.75)
+#define PWM_DUTY_80      (HTCFG_PWM_TM_RELOAD * 0.80)
+#define PWM_DUTY_85      (HTCFG_PWM_TM_RELOAD * 0.85)
 #define PWM_DUTY_95      (HTCFG_PWM_TM_RELOAD * 0.95)
 #define PWM_DUTY_100     (0xFFFF)
 
@@ -92,6 +96,7 @@
 /* Exported functions --------------------------------------------------------------------------------------*/
 void PWM_Init(void);
 void PWM_Cmd(ControlStatus NewState);
+void Motor_Unlock_init(TM_CH_Enum TM_CH_1, TM_CH_Enum TM_CH_2, TM_CH_Enum TM_CH_3, TM_CH_Enum TM_CH_4);
 
 #if 1
 #define PWM_SetFreq(uReload)     TM_SetCounterReload(HTCFG_PWM_TM_PORT, uReload)

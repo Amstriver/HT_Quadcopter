@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HT32_DRIVER, USE_HT32F52352_SK, USE_HT32F52342_52, USE_MEM_HT32F52352</Define>
               <Undefine></Undefine>
-              <IncludePath>..\;..\..\..\..\library\CMSIS\Include;..\..\..\..\library\Device\Holtek\HT32F5xxxx\Include;..\..\..\..\library\HT32F5xxxx_Driver\inc;..\..\..\..\library\HT32_USBD_Library\inc;..\..\..\..\utilities;..\HardWare</IncludePath>
+              <IncludePath>..\;..\..\..\..\library\CMSIS\Include;..\..\..\..\library\Device\Holtek\HT32F5xxxx\Include;..\..\..\..\library\HT32F5xxxx_Driver\inc;..\..\..\..\library\HT32_USBD_Library\inc;..\..\..\..\utilities;..\HardWare;..\StartUp;..\Config;..\Math</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -390,29 +390,9 @@
               <FilePath>..\main.c</FilePath>
             </File>
             <File>
-              <FileName>ht32f5xxxx_01_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\ht32f5xxxx_01_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\pwm.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\delay.c</FilePath>
-            </File>
-            <File>
               <FileName>oled.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HardWare\oled.c</FilePath>
-            </File>
-            <File>
-              <FileName>time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\time.c</FilePath>
             </File>
             <File>
               <FileName>led.c</FileName>
@@ -420,14 +400,49 @@
               <FilePath>..\HardWare\led.c</FilePath>
             </File>
             <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\uart.c</FilePath>
-            </File>
-            <File>
               <FileName>wt_imu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HardWare\wt_imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Config\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Config\pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Config\time.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Config\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>ht32f5xxxx_01_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\StartUp\ht32f5xxxx_01_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>ALL_DATA.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\ALL_DATA.h</FilePath>
+            </File>
+            <File>
+              <FileName>Init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Init.c</FilePath>
+            </File>
+            <File>
+              <FileName>control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\control.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -435,24 +450,9 @@
           <GroupName>Config</GroupName>
           <Files>
             <File>
-              <FileName>_ht32_project_source.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\_ht32_project_source.h</FilePath>
-            </File>
-            <File>
               <FileName>ht32_board_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\ht32_board_config.h</FilePath>
-            </File>
-            <File>
-              <FileName>ht32f5xxxx_conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\ht32f5xxxx_conf.h</FilePath>
-            </File>
-            <File>
-              <FileName>ht32f5xxxx_01_usbdconf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\ht32f5xxxx_01_usbdconf.h</FilePath>
             </File>
             <File>
               <FileName>ht32_op.s</FileName>
@@ -464,6 +464,16 @@
               <FileType>5</FileType>
               <FilePath>.\HT32F5xxxx_01_DebugSupport.ini</FilePath>
             </File>
+            <File>
+              <FileName>ht32f5xxxx_01_usbdconf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\StartUp\ht32f5xxxx_01_usbdconf.h</FilePath>
+            </File>
+            <File>
+              <FileName>ht32f5xxxx_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\StartUp\ht32f5xxxx_conf.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -472,7 +482,7 @@
             <File>
               <FileName>system_ht32f5xxxx_01.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\system_ht32f5xxxx_01.c</FilePath>
+              <FilePath>..\StartUp\system_ht32f5xxxx_01.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -666,6 +676,31 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Math</GroupName>
+          <Files>
+            <File>
+              <FileName>filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Math\filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>kalman.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Math\kalman.c</FilePath>
+            </File>
+            <File>
+              <FileName>myMath.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Math\myMath.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Math\pid.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -675,5 +710,14 @@
     <components/>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>Project_52352</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

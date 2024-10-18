@@ -1,5 +1,6 @@
 #include "time.h"
 #include "led.h"
+#include "control.h"
  
 uint16_t count = 0;  // 计时
 uint8_t led_flag = 0; // led进行翻转标志
@@ -23,7 +24,7 @@ void BFTM1_IRQHandler(void)
 {
 		if(BFTM_GetFlagStatus(HT_BFTM1) != RESET )
 		{	
-		
+
 			count++;			
 			if(count == 1000) //1s
 			{	

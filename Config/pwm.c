@@ -26,10 +26,7 @@
  ************************************************************************************************************/
 
 /* Includes ------------------------------------------------------------------------------------------------*/
-#include "ht32.h"
-#include "ht32_board_config.h"
-#include "pwm.h"
-
+#include "Init.h"
 /* Private constants ---------------------------------------------------------------------------------------*/
 #define HTCFG_PWM_TM_AFIO_FUN                     STRCAT2(AFIO_FUN_, HTCFG_PWM_TM_IPN)
 #define HTCFG_PWM_TM_IRQn                         STRCAT2(HTCFG_PWM_TM_IPN,  _IRQn)
@@ -231,6 +228,21 @@ void PWM_Cmd(ControlStatus NewState)
   }
 }
 
+// 电调解锁 注意PWM频率设置，PWM高点和低点
+void Motor_Unlock_init(TM_CH_Enum TM_CH_1, TM_CH_Enum TM_CH_2, TM_CH_Enum TM_CH_3, TM_CH_Enum TM_CH_4)
+{
+	PWM_UpdateDuty(TM_CH_1, PWM_DUTY_10);
+	PWM_UpdateDuty(TM_CH_2, PWM_DUTY_10);
+	PWM_UpdateDuty(TM_CH_3, PWM_DUTY_10);
+	PWM_UpdateDuty(TM_CH_4, PWM_DUTY_10);
+	delay_ms(2000);
+	PWM_UpdateDuty(TM_CH_1, PWM_DUTY_95);
+	PWM_UpdateDuty(TM_CH_2, PWM_DUTY_95);
+	PWM_UpdateDuty(TM_CH_3, PWM_DUTY_95);
+	PWM_UpdateDuty(TM_CH_4, PWM_DUTY_95);
+	delay_ms(2000);
+//	PWM_Cmd(ENABLE);
+}
 #if 0
 /*********************************************************************************************************//**
   * @brief  Set PWM Frequency
