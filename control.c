@@ -50,7 +50,7 @@ void MotorControl(void)
 					
 //以下输出的脉冲分配取决于电机PWM分布与飞控坐标体系。请看飞控坐标体系图解，与四个电机PWM分布分布	
 //           机头      
-//   PWM3     ♂       PWM1
+//   PC5     ♂       PC4
 //      *           *
 //      	*       *
 //    		  *   *
@@ -58,27 +58,27 @@ void MotorControl(void)
 //    		  *   *
 //      	*       *
 //      *           *
-//    PWM4           PWM2			
-//		pidRateX.out 横滚角串级PID输出 控制左右，可以看出1 2和3 4，左右两组电机同增同减
-//    pidRateY.out 俯仰角串级PID输出 控制前后，可以看出2 3和1 4，前后两组电机同增同减
-//		pidRateZ.out 横滚角串级PID输出 控制旋转，可以看出2 4和1 3，两组对角线电机同增同减	
+//   PC9              PC8			
+////		pidRateX.out 横滚角串级PID输出 控制左右，可以看出1 2和3 4，左右两组电机同增同减
+////    pidRateY.out 俯仰角串级PID输出 控制前后，可以看出2 3和1 4，前后两组电机同增同减
+////		pidRateZ.out 横滚角串级PID输出 控制旋转，可以看出2 4和1 3，两组对角线电机同增同减	
 
 // 正负号取决于算法输出 比如输出是正的话  往前飞必然是尾巴两个电机增加,往右飞必然是左边两个电机增加		
 
-		MOTOR1 +=    + pidRateX.out + pidRateY.out + pidRateZ.out;//; 姿态输出分配给各个电机的控制量
-		MOTOR2 +=    + pidRateX.out - pidRateY.out - pidRateZ.out ;//;
-		MOTOR3 +=    - pidRateX.out + pidRateY.out - pidRateZ.out;
-		MOTOR4 +=    - pidRateX.out - pidRateY.out + pidRateZ.out;//;
+//		MOTOR1 +=    + pidRateX.out + pidRateY.out + pidRateZ.out;//; 姿态输出分配给各个电机的控制量
+//		MOTOR2 +=    + pidRateX.out - pidRateY.out - pidRateZ.out ;//;
+//		MOTOR3 +=    - pidRateX.out + pidRateY.out - pidRateZ.out;
+//		MOTOR4 +=    - pidRateX.out - pidRateY.out + pidRateZ.out;//;
 
-//		MOTOR1 +=    + pidRateX.out;
-//		MOTOR2 +=    + pidRateX.out;
-//		MOTOR3 +=    - pidRateX.out;
-//		MOTOR4 +=    - pidRateX.out;
+		MOTOR1 +=    + pidRateX.out + pidRateY.out;
+		MOTOR2 +=    + pidRateX.out - pidRateY.out;
+		MOTOR3 +=    - pidRateX.out + pidRateY.out;
+		MOTOR4 +=    - pidRateX.out - pidRateY.out;
 	
-	TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH0, LIMIT(MOTOR1,HTCFG_PWM_TM_RELOAD * 0.75,HTCFG_PWM_TM_RELOAD * 0.85));
-	TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH1, LIMIT(MOTOR2,HTCFG_PWM_TM_RELOAD * 0.75,HTCFG_PWM_TM_RELOAD * 0.85));
-	TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH2, LIMIT(MOTOR3,HTCFG_PWM_TM_RELOAD * 0.75,HTCFG_PWM_TM_RELOAD * 0.85));
-	TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH3, LIMIT(MOTOR4,HTCFG_PWM_TM_RELOAD * 0.75,HTCFG_PWM_TM_RELOAD * 0.85));
+	TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH0, LIMIT(MOTOR1,HTCFG_PWM_TM_RELOAD * 0.60,HTCFG_PWM_TM_RELOAD * 0.85));  // PC4
+	TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH1, LIMIT(MOTOR2,HTCFG_PWM_TM_RELOAD * 0.60,HTCFG_PWM_TM_RELOAD * 0.85));  // PC5 
+	TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH2, LIMIT(MOTOR3,HTCFG_PWM_TM_RELOAD * 0.60,HTCFG_PWM_TM_RELOAD * 0.85));  // PC8
+	TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH3, LIMIT(MOTOR4,HTCFG_PWM_TM_RELOAD * 0.60,HTCFG_PWM_TM_RELOAD * 0.85));  // PC9  
 } 
 
 /************************************END OF FILE********************************************/ 
