@@ -235,12 +235,12 @@ void Motor_Unlock_init(TM_CH_Enum TM_CH_1, TM_CH_Enum TM_CH_2, TM_CH_Enum TM_CH_
 	PWM_UpdateDuty(TM_CH_2, PWM_DUTY_10);
 	PWM_UpdateDuty(TM_CH_3, PWM_DUTY_10);
 	PWM_UpdateDuty(TM_CH_4, PWM_DUTY_10);
-	delay_ms(2000);
+	delay_ms(3500);
 	PWM_UpdateDuty(TM_CH_1, PWM_DUTY_95);
 	PWM_UpdateDuty(TM_CH_2, PWM_DUTY_95);
 	PWM_UpdateDuty(TM_CH_3, PWM_DUTY_95);
 	PWM_UpdateDuty(TM_CH_4, PWM_DUTY_95);
-	delay_ms(2000);
+	delay_ms(3500);
 //	PWM_Cmd(ENABLE);
 }
 #if 0
