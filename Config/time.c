@@ -24,7 +24,8 @@ void BFTM1_IRQHandler(void)
 {
 		if(BFTM_GetFlagStatus(HT_BFTM1) != RESET )
 		{	
-
+		FlightPidControl(0.003f);
+		MotorControl();		
 			count++;			
 			if(count == 1000) //1s
 			{	

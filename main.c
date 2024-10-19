@@ -34,10 +34,10 @@ int main(void)
 //	char numberStr[10];
 //  sprintf(numberStr, "%d", i);	// 将数值i转换为字符串
 //  OLED_P8x16String(0, 0, numberStr);  // 显示该数字
-//		TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH0, PWM_DUTY_85);
-//		TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH1, PWM_DUTY_85);
-//		TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH2, PWM_DUTY_85);
-//		TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH3, PWM_DUTY_85);
+		TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH0, PWM_DUTY_80);
+		TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH1, PWM_DUTY_80);
+		TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH2, PWM_DUTY_80);
+		TM_SetCaptureCompare(HTCFG_PWM_TM_PORT, PWM_CH3, PWM_DUTY_80);
   while (1){
 //	uint32_t countValue = TM_GetCounter(HT_GPTM0);
 //  char numberStr[10];		
@@ -48,8 +48,8 @@ int main(void)
 		char floatStr1[20]; 
 		char floatStr2[20]; 
 		char floatStr3[20];
-//		FlightPidControl(0.003f);
-//		MotorControl();		
+
+
 		if (Flag == 1)
 		{sprintf(floatStr1, "Roll = %.2f", Angle.roll);  // 将fAng[0]转换为保留两位小数的字符串  横滚角
 		OLED_P8x16String(10, 0, floatStr1);   // 在OLED上显示  
