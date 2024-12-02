@@ -4,8 +4,6 @@
 #include "pid.h"
 #include "myMath.h"
 
-//extern _st_Mpu WtIMU;   //WtIMU原始数据
-//extern _st_AngE Angle;
 //------------------------------------------------------------------------------
 PidObject *(pPidObject[])={&pidRateX,&pidRateY,&pidRateZ,&pidRoll,&pidPitch,&pidYaw   //结构体数组，将每一个数组放一个pid结构体，这样就可以批量操作各个PID的数据了  比如解锁时批量复位pid控制数据，新手明白这句话的作用就可以了
 };
@@ -18,9 +16,9 @@ PidObject *(pPidObject[])={&pidRateX,&pidRateY,&pidRateZ,&pidRoll,&pidPitch,&pid
 void FlightPidControl(float dt)
 {
 	
-      pidRateX.measured = WtIMU.gyroX * Gyro_G; //内环测量值 角度/秒
-			pidRateY.measured = WtIMU.gyroY * Gyro_G;
-			pidRateZ.measured = WtIMU.gyroZ * Gyro_G;
+      pidRateX.measured = WtIMU.gyroX * Gyro_G; //内环测量值 角度/秒 Roll
+			pidRateY.measured = WtIMU.gyroY * Gyro_G;  // Pitch
+			pidRateZ.measured = WtIMU.gyroZ * Gyro_G;  // Yaw
 		
 			pidPitch.measured = Angle.pitch; //外环测量值 单位：角度
 		  pidRoll.measured = Angle.roll;
@@ -39,17 +37,17 @@ void FlightPidControl(float dt)
 }
 
 
-#define MOTOR1 motor_PWM_Value[0] 
-#define MOTOR2 motor_PWM_Value[1] 
-#define MOTOR3 motor_PWM_Value[2] 
-#define MOTOR4 motor_PWM_Value[3] 
+#define MOTOR1 motor_PWM_Value[0]  // PC4 
+#define MOTOR2 motor_PWM_Value[1]  // PC5
+#define MOTOR3 motor_PWM_Value[2]  // PC8 
+#define MOTOR4 motor_PWM_Value[3]  // PC9
 
 void MotorControl(void)
 {	
-		MOTOR1 = MOTOR2 = MOTOR3 = MOTOR4 = HTCFG_PWM_TM_RELOAD * 0.85;  //留100给姿态控制
+		MOTOR1 = MOTOR2 = MOTOR3 = MOTOR4 = HTCFG_PWM_TM_RELOAD * 0.85;  // PWM初始值
 					
-//以下输出的脉冲分配取决于电机PWM分布与飞控坐标体系。请看飞控坐标体系图解，与四个电机PWM分布分布	
-//           机头      
+//以下输出的脉冲分配取决于电机PWM分布与飞控坐标体系。
+//           机头（USB口正对的地方）      
 //   PC5     ♂       PC4
 //      *           *
 //      	*       *
@@ -59,9 +57,9 @@ void MotorControl(void)
 //      	*       *
 //      *           *
 //   PC9              PC8			
-////		pidRateX.out 横滚角串级PID输出 控制左右，可以看出1 2和3 4，左右两组电机同增同减
-////    pidRateY.out 俯仰角串级PID输出 控制前后，可以看出2 3和1 4，前后两组电机同增同减
-////		pidRateZ.out 横滚角串级PID输出 控制旋转，可以看出2 4和1 3，两组对角线电机同增同减	
+  // 此处 wt_Imu 位置放反，导致前后为Roll，左右为Pitch
+////		pidRateX.out 横滚角串级PID输出 控制前后，可以看出PC5 PC4和PC9 PC8，前后两组电机同增同减
+////    pidRateY.out 俯仰角串级PID输出 控制左右，可以看出PC5 PC9和PC4 PC8，左右两组电机同增同减
 
 // 正负号取决于算法输出 比如输出是正的话  往前飞必然是尾巴两个电机增加,往右飞必然是左边两个电机增加		
 
@@ -69,7 +67,7 @@ void MotorControl(void)
 //		MOTOR2 +=    + pidRateX.out - pidRateY.out - pidRateZ.out ;//;
 //		MOTOR3 +=    - pidRateX.out + pidRateY.out - pidRateZ.out;
 //		MOTOR4 +=    - pidRateX.out - pidRateY.out + pidRateZ.out;//;
-
+  // pidRateX.out ---> 机头前倾和后仰   pidRateY.out ---> 机身左摆或右摆
 		MOTOR1 +=    + pidRateX.out + pidRateY.out;
 		MOTOR2 +=    + pidRateX.out - pidRateY.out;
 		MOTOR3 +=    - pidRateX.out + pidRateY.out;
